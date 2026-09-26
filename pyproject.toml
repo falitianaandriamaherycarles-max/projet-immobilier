@@ -1,0 +1,23 @@
+[project]
+name = "projet-immobilier"
+version = "1.0.0"
+description = "Pipeline MLOps de prédiction du prix de biens immobiliers à partir des données DVF (data.gouv.fr)"
+requires-python = ">=3.11"
+readme = "README.md"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+exclude = ["notebooks", "mlruns", ".dvc"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["src/api/*"]

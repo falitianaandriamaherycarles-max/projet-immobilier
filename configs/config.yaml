@@ -1,0 +1,69 @@
+project:
+  name: projet-immobilier
+  description: "Prédiction du prix de biens immobiliers à partir des données DVF (data.gouv.fr)"
+
+data:
+  source: "data.gouv.fr - DVF (Demandes de Valeurs Foncières)"
+  base_url: "https://files.data.gouv.fr/geo-dvf/latest/csv"
+  years: [2023, 2024]
+  departements: ["75", "92", "93", "94"]   # modifiable
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  features_dir: "data/features"
+  # fichier DVF brut
+  columns_keep:
+    - date_mutation
+    - nature_mutation
+    - valeur_fonciere
+    - code_postal
+    - code_commune
+    - nom_commune
+    - code_departement
+    - type_local
+    - surface_reelle_bati
+    - nombre_pieces_principales
+    - surface_terrain
+    - longitude
+    - latitude
+
+# Prétraitement / nettoyage
+preprocess:
+  types_locaux_valides: ["Maison", "Appartement"]
+  nature_mutation_valide: "Vente"
+  prix_min: 10000
+  prix_max: 3000000
+  surface_min: 9
+  surface_max: 500
+  # prix par default
+  prix_m2_min: 500
+  prix_m2_max: 20000
+  test_size: 0.2
+  random_state: 42
+
+train:
+  target: valeur_fonciere
+  model_dir: "models"
+  model_path: "models/model.pkl"
+  preprocessor_path: "models/preprocessor.pkl"
+  params_file: "configs/model_params.yaml"
+
+mlflow:
+  tracking_uri: "http://mlflow:5000"
+  experiment_name: "projet-immobilier"
+  registered_model_name: "prix-immobilier"
+
+huggingface:
+  repo_id: "votre-compte/projet-immobilier-model"
+  private: true
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  title: "API Prédiction Prix Immobilier"
+  version: "1.0.0"
+
+monitoring:
+  reference_data: "data/features/train.parquet"
+  current_data: "data/features/current.parquet"
+  report_path: "reports/drift_report.html"
+  drift_share_threshold: 0.3   # au-delà : alerte de dérive globale

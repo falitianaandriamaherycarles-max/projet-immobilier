@@ -1,0 +1,9 @@
+[core]
+    remote = storage
+
+# Remote à adapter à votre infrastructure (S3, GCS, Azure Blob, SSH, etc.)
+# Exemple pour un bucket S3 :
+#   dvc remote add -d storage s3://mon-bucket/projet-immobilier
+#   dvc remote modify storage region eu-west-3
+['remote "storage"']
+    url = s3://CHANGEZ-MOI/projet-immobilier

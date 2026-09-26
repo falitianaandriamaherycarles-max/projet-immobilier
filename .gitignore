@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Données et modèles (versionnés par DVC, pas par Git)
+/data/raw/*
+/data/processed/*
+/data/features/*
+!/data/raw/.gitkeep
+!/data/processed/.gitkeep
+!/data/features/.gitkeep
+/models/*.pkl
+!/models/.gitkeep
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Rapports générés
+/reports/*.html
+/reports/*.json
+
+# Environnement
+.env
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/

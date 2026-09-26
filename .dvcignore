@@ -1,0 +1,4 @@
+# Fichiers à ignorer par DVC (syntaxe similaire à .gitignore)
+**/__pycache__
+**/.ipynb_checkpoints
+*.pyc

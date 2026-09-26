@@ -1,0 +1,64 @@
+name: Ré-entraînement planifié
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"   # scheduler lundi 03h
+  workflow_dispatch:        # déclenchement manuel possible depuis GitHub
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Installation de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Installation des dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt dvc
+
+      - name: Ingestion des données DVF (data.gouv.fr)
+        run: python -m src.data.ingest --config configs/config.yaml
+
+      - name: Prétraitement
+        run: python -m src.data.preprocess --config configs/config.yaml
+
+      - name: Feature engineering
+        run: python -m src.features.build_features --config configs/config.yaml
+
+      - name: Entraînement (MLflow tracking)
+        env:
+          MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+        run: python -m src.models.train --config configs/config.yaml
+
+      - name: Évaluation
+        run: python -m src.models.evaluate --config configs/config.yaml
+
+      - name: Rapport de dérive (Evidently)
+        run: python -m src.monitoring.drift_report --config configs/config.yaml
+        continue-on-error: true   # pas de données au premier run
+
+      - name: Versioning DVC des artefacts (données + modèle)
+        run: |
+          dvc add data/processed data/features models/model.pkl
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/processed.dvc data/features.dvc models/model.pkl.dvc
+          git commit -m "chore: ré-entraînement automatique du $(date -u +%F)" || echo "Rien à committer"
+          git push
+          dvc push
+
+      - name: Publication sur Hugging Face Hub
+        if: ${{ secrets.HF_TOKEN != '' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python -m src.models.push_hf --config configs/config.yaml

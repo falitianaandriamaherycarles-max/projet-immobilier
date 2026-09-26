@@ -1,0 +1,52 @@
+stages:
+  ingest:
+    cmd: python -m src.data.ingest --config configs/config.yaml
+    deps:
+      - src/data/ingest.py
+      - configs/config.yaml
+    outs:
+      - data/raw/dvf_raw.csv
+
+  preprocess:
+    cmd: python -m src.data.preprocess --config configs/config.yaml
+    deps:
+      - src/data/preprocess.py
+      - data/raw/dvf_raw.csv
+      - configs/config.yaml
+    outs:
+      - data/processed/dvf_clean.parquet
+
+  build_features:
+    cmd: python -m src.features.build_features --config configs/config.yaml
+    deps:
+      - src/features/build_features.py
+      - data/processed/dvf_clean.parquet
+      - configs/config.yaml
+    outs:
+      - data/features/train.parquet
+      - data/features/test.parquet
+      - models/preprocessor.pkl
+
+  train:
+    cmd: python -m src.models.train --config configs/config.yaml
+    deps:
+      - src/models/train.py
+      - data/features/train.parquet
+      - data/features/test.parquet
+      - configs/config.yaml
+      - configs/model_params.yaml
+    outs:
+      - models/model.pkl
+    metrics:
+      - reports/eval_metrics.json:
+          cache: false
+
+  evaluate:
+    cmd: python -m src.models.evaluate --config configs/config.yaml
+    deps:
+      - src/models/evaluate.py
+      - models/model.pkl
+      - data/features/test.parquet
+    metrics:
+      - reports/eval_metrics.json:
+          cache: false
