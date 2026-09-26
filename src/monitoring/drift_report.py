@@ -7,8 +7,9 @@ from pathlib import Path
 
 import pandas as pd
 import yaml
-from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset, DataQualityPreset
+from evidently.report import Report
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
