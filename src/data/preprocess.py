@@ -17,7 +17,6 @@ def load_config(config_path: str) -> dict:
 
 
 def clean_dvf(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
-
     pp = cfg["preprocess"]
     n0 = len(df)
 

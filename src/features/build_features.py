@@ -31,7 +31,6 @@ def add_calendar_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_feature_frame(df: pd.DataFrame) -> pd.DataFrame:
-
     df = add_calendar_features(df)
     if "code_departement" not in df.columns and "code_postal" in df.columns:
         df["code_departement"] = df["code_postal"].astype(str).str[:2]

@@ -10,7 +10,6 @@ CATEGORICAL_FEATURES = ["type_local", "code_departement"]
 
 
 class PricePredictor:
-
     def __init__(self, model_path: str, preprocessor_path: str):
         self.model = joblib.load(model_path)
         bundle = joblib.load(preprocessor_path)

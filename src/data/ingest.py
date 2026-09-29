@@ -39,7 +39,6 @@ def gunzip(src: Path, dest: Path) -> Path:
 
 
 def fetch_departement_year(base_url: str, year: int, dept: str, raw_dir: Path) -> Path:
-
     gz_url = f"{base_url}/{year}/departements/{dept}.csv.gz"
     gz_path = raw_dir / f"{year}_{dept}.csv.gz"
     csv_path = raw_dir / f"{year}_{dept}.csv"
@@ -64,7 +63,6 @@ def fetch_departement_year(base_url: str, year: int, dept: str, raw_dir: Path) -
 
 
 def concatenate_raw(csv_paths: list[Path], columns_keep: list[str] | None, out_path: Path) -> pd.DataFrame:
-
     frames = []
     for p in csv_paths:
         logger.info("Lecture : %s", p)
