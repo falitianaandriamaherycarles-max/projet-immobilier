@@ -10,7 +10,6 @@ import yaml
 from evidently.metric_preset import DataDriftPreset, DataQualityPreset
 from evidently.report import Report
 
-
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
