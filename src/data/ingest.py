@@ -56,7 +56,7 @@ def fetch_departement_year(base_url: str, year: int, dept: str, raw_dir: Path) -
             "Échec du téléchargement pour %s/%s : %s. "
             "Vérifiez l'URL courante sur "
             "https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/",
-            year, dept, exc,
+            year, dept, exc
         )
         raise
     return csv_path

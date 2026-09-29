@@ -53,7 +53,9 @@ def fit_preprocessor(df: pd.DataFrame) -> tuple[OneHotEncoder, list[str]]:
 
 def transform(df: pd.DataFrame, encoder: OneHotEncoder) -> pd.DataFrame:
     encoded = encoder.transform(df[CATEGORICAL_FEATURES])
-    encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(CATEGORICAL_FEATURES), index=df.index)
+    encoded_df = pd.DataFrame(
+        encoded, columns=encoder.get_feature_names_out(CATEGORICAL_FEATURES), index=df.index
+    )
     numeric_df = df[NUMERIC_FEATURES + ["annee_mutation", "mois_mutation"]].reset_index(drop=True)
     encoded_df = encoded_df.reset_index(drop=True)
     return pd.concat([numeric_df, encoded_df], axis=1)
@@ -69,9 +71,7 @@ def main(config_path: str = "configs/config.yaml"):
 
     feat_df = build_feature_frame(df)
 
-    train_df, test_df = train_test_split(
-        feat_df, test_size=pp["test_size"], random_state=pp["random_state"]
-    )
+    train_df, test_df = train_test_split(feat_df, test_size=pp["test_size"], random_state=pp["random_state"])
 
     encoder, feature_names = fit_preprocessor(train_df)
 

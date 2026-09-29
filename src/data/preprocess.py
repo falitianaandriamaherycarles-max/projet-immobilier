@@ -51,7 +51,9 @@ def clean_dvf(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     df["date_mutation"] = pd.to_datetime(df["date_mutation"], errors="coerce")
     df = df.dropna(subset=["date_mutation"])
 
-    logger.info("Nettoyage : %d -> %d lignes (%.1f%% conservées)", n0, len(df), 100 * len(df) / n0 if n0 else 0)
+    logger.info(
+        "Nettoyage : %d -> %d lignes (%.1f%% conservées)", n0, len(df), 100 * len(df) / n0 if n0 else 0
+    )
     return df.reset_index(drop=True)
 
 
