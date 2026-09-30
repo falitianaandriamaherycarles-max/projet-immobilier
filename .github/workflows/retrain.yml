@@ -37,7 +37,7 @@ jobs:
 
       - name: Entraînement (MLflow tracking)
         env:
-          MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+          MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI || 'file:./mlruns' }}
         run: python -m src.models.train --config configs/config.yaml
 
       - name: Évaluation

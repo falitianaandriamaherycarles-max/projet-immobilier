@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 from pathlib import Path
 
 import joblib
@@ -51,6 +52,7 @@ def main(config_path: str = "configs/config.yaml"):
     features_dir = Path(cfg["data"]["features_dir"])
     X_train, y_train, X_test, y_test = load_split(features_dir)
 
+    tracking_uri = os.environ.get("MLFLOW_TRACKING_URI") or cfg["mlflow"]["tracking_uri"]
     mlflow.set_tracking_uri(cfg["mlflow"]["tracking_uri"])
     mlflow.set_experiment(cfg["mlflow"]["experiment_name"])
 
