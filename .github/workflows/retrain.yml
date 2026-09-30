@@ -58,7 +58,7 @@ jobs:
           dvc push
 
       - name: Publication sur Hugging Face Hub
-        if: ${{ secrets.HF_TOKEN != '' }}
+        if: ${{ env.HF_TOKEN != '' }}
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python -m src.models.push_hf --config configs/config.yaml
