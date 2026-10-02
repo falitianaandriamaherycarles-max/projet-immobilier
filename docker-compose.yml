@@ -22,6 +22,8 @@ services:
       context: .
       dockerfile: docker/mlflow/Dockerfile
     container_name: immobilier-mlflow
+    ports:
+      - "5000:5000"
     volumes:
       - mlflow-data:/mlflow
     restart: unless-stopped
