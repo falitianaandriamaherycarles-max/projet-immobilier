@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: docker/api/Dockerfile
     container_name: immobilier-api
+    ports:
+      - "8000:8000"
     volumes:
       - ./models:/app/models:ro
     environment:
@@ -35,6 +37,8 @@ services:
       context: .
       dockerfile: docker/evidently/Dockerfile
     container_name: immobilier-evidently
+    ports:
+      - "8050:8050"
     volumes:
       - ./data:/app/data:ro
       - ./reports:/app/reports
