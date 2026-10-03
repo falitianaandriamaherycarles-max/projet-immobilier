@@ -68,8 +68,9 @@ def main(config_path: str = "configs/config.yaml"):
 
         mlflow.sklearn.log_model(
             model,
-            artifact_path="model",
+            name="model",
             registered_model_name=cfg["mlflow"]["registered_model_name"],
+            skops_trusted_types=["sklearn.tree._tree.Tree"],
         )
 
         # Artefact local, versionné par DVC (dvc.yaml -> stage "train")
