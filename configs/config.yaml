@@ -64,6 +64,6 @@ api:
 
 monitoring:
   reference_data: "data/features/train.parquet"
-  current_data: "data/features/current.parquet"
+  current_data: "data/features/test.parquet"
   report_path: "reports/drift_report.html"
   drift_share_threshold: 0.3   # au-delà : alerte de dérive globale
