@@ -46,6 +46,22 @@ services:
     networks:
       - immobilier-net
 
+  minio:
+    image: pgsty/silo:latest
+    container_name: immobilier-minio
+    command: minio server /data --console-adress ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio-data:/data
+    restart: unless-stopped
+    networks:
+      - immobilier-net
+
   nginx:
     image: nginx:1.27-alpine
     container_name: immobilier-nginx
