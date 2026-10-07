@@ -79,6 +79,7 @@ services:
 
 volumes:
   mlflow-data:
+  minio-data:
 
 networks:
   immobilier-net:
