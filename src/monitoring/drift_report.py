@@ -38,6 +38,7 @@ def build_report(reference: pd.DataFrame, current: pd.DataFrame, drift_share: fl
         presets.append(DataSummaryPreset())
     return Report(presets).run(current_data=current, reference_data=reference)
 
+
 def extract_drift_share(result: dict) -> float | None:
     for metric in result.get("metrics", []):
         if "DrifedColumnsCount" in json.dumps(metric, default=str):
