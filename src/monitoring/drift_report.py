@@ -70,7 +70,7 @@ def main(config_path: str = "configs/config.yaml"):
     snapshot.save_html(str(out_path))
     logger.info("Rapport de dérive enregistré : %s", out_path)
 
-    drift_share = extract_drift_share(snapshot)
+    drift_share = extract_drift_share(snapshot.dict())
     if drift_share is None:
         logger.warning("Part de colonnes en derive introuvable dans le resultat d'Evidently.")
     drift_summary = {
