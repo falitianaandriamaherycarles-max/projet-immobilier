@@ -32,3 +32,7 @@ mlflow.db
 .DS_Store
 .vscode/
 .idea/
+
+# DVC remote
+.dvc/config.local
+.dvc/tmp/
